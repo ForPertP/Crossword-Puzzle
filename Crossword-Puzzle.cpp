@@ -1,3 +1,23 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+string ltrim(const string &);
+string rtrim(const string &);
+
+/*
+ * Complete the 'crosswordPuzzle' function below.
+ *
+ * The function is expected to return a STRING_ARRAY.
+ * The function accepts following parameters:
+ *  1. STRING_ARRAY crossword
+ *  2. STRING words
+ */
+
+vector<string> crosswordPuzzle(vector<string> crossword, string words) {
+
+}
+
 // https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
 
 bool crosswordPuzzle(vector<string>& crossword, vector<string>& words)
@@ -65,7 +85,7 @@ vector<string> crosswordPuzzle(vector<string> crossword, string words)
     }
     
     crosswordPuzzle(crossword, word_vec);
-    
+
     return crossword;
 }
 
