@@ -14,10 +14,6 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
-vector<string> crosswordPuzzle(vector<string> crossword, string words) {
-
-}
-
 // https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
 
 bool crosswordPuzzle(vector<string>& crossword, vector<string>& words)
