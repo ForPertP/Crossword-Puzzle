@@ -14,9 +14,29 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
-// https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
+bool solveCrossword(vector<string>& crossword, vector<string>& words) {
+    if (words.empty()) return true;
 
-bool crosswordPuzzle(vector<string>& crossword, vector<string>& words)
+
+    return false;
+}
+
+vector<string> crosswordPuzzle(vector<string> crossword, string words) {
+    vector<string> word_vec;
+    stringstream ss(words);
+    string word;
+    
+    while (getline(ss, word, ';')) {
+        word_vec.push_back(word);
+    }
+    
+    solveCrossword(crossword, word_vec);
+    return crossword;
+}
+
+
+// https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
+bool crosswordPuzzle2(vector<string>& crossword, vector<string>& words)
 {
     auto try_place = [&](auto i, auto j, auto r)
     {
@@ -38,7 +58,7 @@ bool crosswordPuzzle(vector<string>& crossword, vector<string>& words)
         }
         
         words.pop_back();
-        bool success = crosswordPuzzle(crossword, words);
+        bool success = crosswordPuzzle2(crossword, words);
         words.push_back(word);
         
         if (!success)
@@ -63,7 +83,7 @@ bool crosswordPuzzle(vector<string>& crossword, vector<string>& words)
     return false;
 };
 
-vector<string> crosswordPuzzle(vector<string> crossword, string words)
+vector<string> crosswordPuzzle2(vector<string> crossword, string words)
 {
     vector<string> word_vec;
 
@@ -80,7 +100,7 @@ vector<string> crosswordPuzzle(vector<string> crossword, string words)
         }
     }
     
-    crosswordPuzzle(crossword, word_vec);
+    crosswordPuzzle2(crossword, word_vec);
 
     return crossword;
 }
