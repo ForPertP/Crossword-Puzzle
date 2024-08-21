@@ -14,12 +14,36 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
-bool solveCrossword(vector<string>& crossword, vector<string>& words) {
-    if (words.empty()) return true;
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            if (j + len <= 10) {
+                vector<string> backup = crossword;
+                bool canPlace = true;
+                for (int k = 0; k < len; ++k) {
+                    if (crossword[i][j + k] != '-' && crossword[i][j + k] != word[k]) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+                if (canPlace) {
+                    for (int k = 0; k < len; ++k) {
+                        crossword[i][j + k] = word[k];
+                    }
+                    words.pop_back();
+                    if (solveCrossword(crossword, words)) return true;
+                    words.push_back(word);
+                    crossword = backup;
+                }
+            }
 
+            if (i + len <= 10) {
+            }
+        }
+    }
 
     return false;
 }
+
 
 vector<string> crosswordPuzzle(vector<string> crossword, string words) {
     vector<string> word_vec;
