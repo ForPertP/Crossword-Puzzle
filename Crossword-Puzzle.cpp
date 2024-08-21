@@ -14,6 +14,12 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
+bool solveCrossword(vector<string>& crossword, vector<string>& words) {
+    if (words.empty()) return true;
+
+    string word = words.back();
+    int len = word.length();
+
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
             if (j + len <= 10) {
