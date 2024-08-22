@@ -19,7 +19,7 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
 
     string word = words.back();
     int len = word.length();
-
+    
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
             if (j + len <= 10) {
@@ -43,6 +43,23 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
             }
 
             if (i + len <= 10) {
+                vector<string> backup = crossword;
+                bool canPlace = true;
+                for (int k = 0; k < len; ++k) {
+                    if (crossword[i + k][j] != '-' && crossword[i + k][j] != word[k]) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+                if (canPlace) {
+                    for (int k = 0; k < len; ++k) {
+                        crossword[i + k][j] = word[k];
+                    }
+                    words.pop_back();
+                    if (solveCrossword(crossword, words)) return true;
+                    words.push_back(word);
+                    crossword = backup;
+                }
             }
         }
     }
@@ -52,6 +69,22 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
 
 
 vector<string> crosswordPuzzle(vector<string> crossword, string words) {
+    vector<string> word_vec;
+    size_t pos = 0;
+    string delimiter = ";";
+    
+    while ((pos = words.find(delimiter)) != string::npos) {
+        word_vec.push_back(words.substr(0, pos));
+        words.erase(0, pos + delimiter.length());
+    }
+    word_vec.push_back(words);
+
+    solveCrossword(crossword, word_vec);
+    return crossword;
+}
+
+
+vector<string> crosswordPuzzle1(vector<string> crossword, string words) {
     vector<string> word_vec;
     stringstream ss(words);
     string word;
@@ -65,8 +98,9 @@ vector<string> crosswordPuzzle(vector<string> crossword, string words) {
 }
 
 
+
 // https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
-bool crosswordPuzzle2(vector<string>& crossword, vector<string>& words)
+bool solveCrossword2(vector<string>& crossword, vector<string>& words)
 {
     auto try_place = [&](auto i, auto j, auto r)
     {
@@ -88,7 +122,7 @@ bool crosswordPuzzle2(vector<string>& crossword, vector<string>& words)
         }
         
         words.pop_back();
-        bool success = crosswordPuzzle2(crossword, words);
+        bool success = solveCrossword2(crossword, words);
         words.push_back(word);
         
         if (!success)
@@ -130,7 +164,7 @@ vector<string> crosswordPuzzle2(vector<string> crossword, string words)
         }
     }
     
-    crosswordPuzzle2(crossword, word_vec);
+    solveCrossword2(crossword, word_vec);
 
     return crossword;
 }
