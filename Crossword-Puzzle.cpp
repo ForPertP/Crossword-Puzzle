@@ -14,10 +14,10 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
-bool solveCrossword(vector<string>& crossword, vector<string>& words) {
-    if (words.empty()) return true;
+bool solveCrossword(vector<string>& crossword, vector<string>& wordList) {
+    if (wordList.empty()) return true;
 
-    string word = words.back();
+    string word = wordList.back();
     int len = word.length();
     
     for (int i = 0; i < 10; ++i) {
@@ -35,9 +35,9 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
                     for (int k = 0; k < len; ++k) {
                         crossword[i][j + k] = word[k];
                     }
-                    words.pop_back();
-                    if (solveCrossword(crossword, words)) return true;
-                    words.push_back(word);
+                    wordList.pop_back();
+                    if (solveCrossword(crossword, wordList)) return true;
+                    wordList.push_back(word);
                     crossword = backup;
                 }
             }
@@ -55,9 +55,9 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
                     for (int k = 0; k < len; ++k) {
                         crossword[i + k][j] = word[k];
                     }
-                    words.pop_back();
-                    if (solveCrossword(crossword, words)) return true;
-                    words.push_back(word);
+                    wordList.pop_back();
+                    if (solveCrossword(crossword, wordList)) return true;
+                    wordList.push_back(word);
                     crossword = backup;
                 }
             }
@@ -69,20 +69,19 @@ bool solveCrossword(vector<string>& crossword, vector<string>& words) {
 
 
 vector<string> crosswordPuzzle(vector<string> crossword, string words) {
-    vector<string> word_vec;
+    vector<string> wordList;
     size_t pos = 0;
     string delimiter = ";";
     
     while ((pos = words.find(delimiter)) != string::npos) {
-        word_vec.push_back(words.substr(0, pos));
+        wordList.push_back(words.substr(0, pos));
         words.erase(0, pos + delimiter.length());
     }
-    word_vec.push_back(words);
+    wordList.push_back(words);
 
-    solveCrossword(crossword, word_vec);
+    solveCrossword(crossword, wordList);
     return crossword;
 }
-
 
 vector<string> crosswordPuzzle1(vector<string> crossword, string words) {
     vector<string> word_vec;
