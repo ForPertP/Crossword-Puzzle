@@ -84,18 +84,17 @@ vector<string> crosswordPuzzle(vector<string> crossword, string words) {
 }
 
 vector<string> crosswordPuzzle1(vector<string> crossword, string words) {
-    vector<string> word_vec;
+    vector<string> wordList;
     stringstream ss(words);
     string word;
     
     while (getline(ss, word, ';')) {
-        word_vec.push_back(word);
+        wordList.push_back(word);
     }
     
-    solveCrossword(crossword, word_vec);
+    solveCrossword(crossword, wordList);
     return crossword;
 }
-
 
 
 // https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
