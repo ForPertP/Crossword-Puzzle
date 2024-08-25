@@ -83,6 +83,7 @@ vector<string> crosswordPuzzle(vector<string> crossword, string words) {
     return crossword;
 }
 
+
 vector<string> crosswordPuzzle1(vector<string> crossword, string words) {
     vector<string> wordList;
     stringstream ss(words);
@@ -97,12 +98,13 @@ vector<string> crosswordPuzzle1(vector<string> crossword, string words) {
 }
 
 
+
 // https://www.hackerrank.com/challenges/crossword-puzzle/forum : from mdjabirov
-bool solveCrossword2(vector<string>& crossword, vector<string>& words)
+bool solveCrossword2(vector<string>& crossword, vector<string>& wordList)
 {
     auto try_place = [&](auto i, auto j, auto r)
     {
-        auto word = words.back();
+        auto word = wordList.back();
         if ((r?j:i)+word.length() > 10) return false;
         
         for (size_t k = 0; k < word.length(); ++k)
@@ -119,9 +121,9 @@ bool solveCrossword2(vector<string>& crossword, vector<string>& words)
             crossword[r?i:i+k][r?j+k:j] = word[k];
         }
         
-        words.pop_back();
-        bool success = solveCrossword2(crossword, words);
-        words.push_back(word);
+        wordList.pop_back();
+        bool success = solveCrossword2(crossword, wordList);
+        wordList.push_back(word);
         
         if (!success)
         {
@@ -131,7 +133,7 @@ bool solveCrossword2(vector<string>& crossword, vector<string>& words)
         return success;
     };
     
-    if (words.size() == 0) return true;
+    if (wordList.size() == 0) return true;
     
     for (size_t i = 0; i < 10; ++i)
     {
@@ -147,22 +149,22 @@ bool solveCrossword2(vector<string>& crossword, vector<string>& words)
 
 vector<string> crosswordPuzzle2(vector<string> crossword, string words)
 {
-    vector<string> word_vec;
+    vector<string> wordList;
 
     for (size_t i = 0, j = 0; i < words.length(); ++i)
     {
         if (words[i] == ';')
         {
-            word_vec.push_back(words.substr(j, i-j));
+            wordList.push_back(words.substr(j, i-j));
             j = i+1;
         }
         else if (i == words.length()-1)
         {
-            word_vec.push_back(words.substr(j, i-j+1));
+            wordList.push_back(words.substr(j, i-j+1));
         }
     }
     
-    solveCrossword2(crossword, word_vec);
+    solveCrossword2(crossword, wordList);
 
     return crossword;
 }
