@@ -30,3 +30,28 @@ class Result
     }
 
 }
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        List<string> crossword = new List<string>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            string crosswordItem = Console.ReadLine();
+            crossword.Add(crosswordItem);
+        }
+
+        string words = Console.ReadLine();
+
+        List<string> result = Result.crosswordPuzzle(crossword, words);
+
+        textWriter.WriteLine(String.Join("\n", result));
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
