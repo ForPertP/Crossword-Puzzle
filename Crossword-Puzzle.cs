@@ -26,9 +26,32 @@ class Result
 
     public static List<string> crosswordPuzzle(List<string> crossword, string words)
     {
+        string[] wordList = words.Split(';');
+        char[,] board = new char[10, 10];
 
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                board[i, j] = crossword[i][j];
+            }
+        }
+
+        SolveCrossword(board, wordList, 0);
+
+        List<string> result = new List<string>();
+        for (int i = 0; i < 10; i++)
+        {
+            char[] row = new char[10];
+            for (int j = 0; j < 10; j++)
+            {
+                row[j] = board[i, j];
+            }
+            result.Add(new string(row));
+        }
+
+        return result;
     }
-
 }
 
 class Solution
