@@ -52,6 +52,46 @@ class Result
 
         return result;
     }
+
+
+    private static bool SolveCrossword(char[,] board, string[] words, int index)
+    {
+        if (index == words.Length)
+        {
+            return true;
+        }
+
+        string word = words[index];
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if (CanPlaceHorizontally(board, word, i, j))
+                {
+                    bool[] placed = PlaceHorizontally(board, word, i, j);
+                    if (SolveCrossword(board, words, index + 1))
+                    {
+                        return true;
+                    }
+                    RemoveHorizontally(board, word, i, j, placed);
+                }
+
+                if (CanPlaceVertically(board, word, i, j))
+                {
+                    bool[] placed = PlaceVertically(board, word, i, j);
+                    if (SolveCrossword(board, words, index + 1))
+                    {
+                        return true;
+                    }
+                    RemoveVertically(board, word, i, j, placed);
+                }
+            }
+        }
+
+        return false;
+    }
+    
 }
 
 class Solution
