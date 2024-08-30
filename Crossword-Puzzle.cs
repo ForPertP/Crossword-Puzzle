@@ -91,6 +91,54 @@ class Result
 
         return false;
     }
+
+
+private static bool CanPlaceHorizontally(char[,] board, string word, int row, int col)
+    {
+        if (col + word.Length > 10)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (board[row, col + i] != '-' && board[row, col + i] != word[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    
+    private static bool[] PlaceHorizontally(char[,] board, string word, int row, int col)
+    {
+        bool[] placed = new bool[word.Length];
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (board[row, col + i] == '-')
+            {
+                board[row, col + i] = word[i];
+                placed[i] = true;
+            }
+        }
+
+        return placed;
+    }
+
+    private static void RemoveHorizontally(char[,] board, string word, int row, int col, bool[] placed)
+    {
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (placed[i])
+            {
+                board[row, col + i] = '-';
+            }
+        }
+    }
+    
     
 }
 
