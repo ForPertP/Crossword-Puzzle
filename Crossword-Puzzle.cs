@@ -138,6 +138,52 @@ private static bool CanPlaceHorizontally(char[,] board, string word, int row, in
             }
         }
     }
+
+
+    private static bool CanPlaceVertically(char[,] board, string word, int row, int col)
+    {
+        if (row + word.Length > 10)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (board[row + i, col] != '-' && board[row + i, col] != word[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool[] PlaceVertically(char[,] board, string word, int row, int col)
+    {
+        bool[] placed = new bool[word.Length];
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (board[row + i, col] == '-')
+            {
+                board[row + i, col] = word[i];
+                placed[i] = true;
+            }
+        }
+
+        return placed;
+    }
+
+    private static void RemoveVertically(char[,] board, string word, int row, int col, bool[] placed)
+    {
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (placed[i])
+            {
+                board[row + i, col] = '-';
+            }
+        }
+    }
     
     
 }
