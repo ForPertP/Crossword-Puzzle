@@ -24,76 +24,7 @@ class Result
      *  2. STRING words
      */
 
-    public static List<string> crosswordPuzzle(List<string> crossword, string words)
-    {
-        string[] wordList = words.Split(';');
-        char[,] board = new char[10, 10];
-
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                board[i, j] = crossword[i][j];
-            }
-        }
-
-        SolveCrossword(board, wordList, 0);
-
-        List<string> result = new List<string>();
-        for (int i = 0; i < 10; i++)
-        {
-            char[] row = new char[10];
-            for (int j = 0; j < 10; j++)
-            {
-                row[j] = board[i, j];
-            }
-            result.Add(new string(row));
-        }
-
-        return result;
-    }
-
-
-    private static bool SolveCrossword(char[,] board, string[] words, int index)
-    {
-        if (index == words.Length)
-        {
-            return true;
-        }
-
-        string word = words[index];
-
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                if (CanPlaceHorizontally(board, word, i, j))
-                {
-                    bool[] placed = PlaceHorizontally(board, word, i, j);
-                    if (SolveCrossword(board, words, index + 1))
-                    {
-                        return true;
-                    }
-                    RemoveHorizontally(board, word, i, j, placed);
-                }
-
-                if (CanPlaceVertically(board, word, i, j))
-                {
-                    bool[] placed = PlaceVertically(board, word, i, j);
-                    if (SolveCrossword(board, words, index + 1))
-                    {
-                        return true;
-                    }
-                    RemoveVertically(board, word, i, j, placed);
-                }
-            }
-        }
-
-        return false;
-    }
-
-
-private static bool CanPlaceHorizontally(char[,] board, string word, int row, int col)
+    private static bool CanPlaceHorizontally(char[,] board, string word, int row, int col)
     {
         if (col + word.Length > 10)
         {
@@ -111,7 +42,6 @@ private static bool CanPlaceHorizontally(char[,] board, string word, int row, in
         return true;
     }
 
-    
     private static bool[] PlaceHorizontally(char[,] board, string word, int row, int col)
     {
         bool[] placed = new bool[word.Length];
@@ -138,7 +68,7 @@ private static bool CanPlaceHorizontally(char[,] board, string word, int row, in
             }
         }
     }
-
+    
 
     private static bool CanPlaceVertically(char[,] board, string word, int row, int col)
     {
@@ -184,9 +114,77 @@ private static bool CanPlaceHorizontally(char[,] board, string word, int row, in
             }
         }
     }
-    
-    
+
+
+    private static bool SolveCrossword(char[,] board, string[] words, int index)
+    {
+        if (index == words.Length)
+        {
+            return true;
+        }
+
+        string word = words[index];
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if (CanPlaceHorizontally(board, word, i, j))
+                {
+                    bool[] placed = PlaceHorizontally(board, word, i, j);
+                    if (SolveCrossword(board, words, index + 1))
+                    {
+                        return true;
+                    }
+                    RemoveHorizontally(board, word, i, j, placed);
+                }
+
+                if (CanPlaceVertically(board, word, i, j))
+                {
+                    bool[] placed = PlaceVertically(board, word, i, j);
+                    if (SolveCrossword(board, words, index + 1))
+                    {
+                        return true;
+                    }
+                    RemoveVertically(board, word, i, j, placed);
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    public static List<string> crosswordPuzzle(List<string> crossword, string words)
+    {
+        string[] wordList = words.Split(';');
+        char[,] board = new char[10, 10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                board[i, j] = crossword[i][j];
+            }
+        }
+
+        SolveCrossword(board, wordList, 0);
+
+        List<string> result = new List<string>();
+        for (int i = 0; i < 10; i++)
+        {
+            char[] row = new char[10];
+            for (int j = 0; j < 10; j++)
+            {
+                row[j] = board[i, j];
+            }
+            result.Add(new string(row));
+        }
+
+        return result;
+    }
 }
+
 
 class Solution
 {
