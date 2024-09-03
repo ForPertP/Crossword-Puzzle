@@ -24,12 +24,15 @@ class Result
      *  2. STRING words
      */
 
+
     public static List<string> crosswordPuzzle(List<string> crossword, string words)
     {
-
+        List<string> wordList = new List<string>(words.Split(';'));
+        SolveCrossword(crossword, wordList);
+        return crossword;
     }
-
 }
+
 
 class Solution
 {
