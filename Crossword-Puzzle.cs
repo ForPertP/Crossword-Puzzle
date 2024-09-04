@@ -24,6 +24,63 @@ class Result
      *  2. STRING words
      */
 
+    static bool SolveCrossword(List<string> crossword, List<string> wordList)
+    {
+        if (wordList.Count == 0) return true;
+
+        string word = wordList[wordList.Count - 1];
+        int len = word.Length;
+
+        for (int i = 0; i < 10; ++i)
+        {
+            for (int j = 0; j < 10; ++j)
+            {
+                if (j + len <= 10)
+                {
+                    List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
+
+                    bool canPlace = true;
+
+                    for (int k = 0; k < len; ++k)
+                    {
+                        if (crossword[i][j + k] != '-' && crossword[i][j + k] != word[k])
+                        {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+
+                    if (canPlace)
+                    {
+                        for (int k = 0; k < len; ++k)
+                        {
+                            //char[] line = crossword[i].ToCharArray();
+                            //line[j + k] = word[k];
+                            //crossword[i] = new string(line);
+
+                            StringBuilder sb = new StringBuilder(crossword[i]);
+                            sb[j + k] = word[k];
+                            crossword[i] = sb.ToString();
+                        }
+
+                        wordList.RemoveAt(wordList.Count - 1);
+                        if (SolveCrossword(crossword, wordList)) return true;
+
+                        wordList.Add(word);
+
+                        for (int l = 0; l < crossword.Count; l++)
+                        {
+                            crossword[l] = backup[l];
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
 
     public static List<string> crosswordPuzzle(List<string> crossword, string words)
     {
