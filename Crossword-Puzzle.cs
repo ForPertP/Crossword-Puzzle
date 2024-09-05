@@ -75,6 +75,41 @@ class Result
                     }
                 }
 
+                if (i + len <= 10)
+                {
+                    List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
+
+                    bool canPlace = true;
+
+                    for (int k = 0; k < len; ++k)
+                    {
+                        if (crossword[i + k][j] != '-' && crossword[i + k][j] != word[k])
+                        {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+
+                    if (canPlace)
+                    {
+                        for (int k = 0; k < len; ++k)
+                        {
+                            char[] line = crossword[i + k].ToCharArray();
+                            line[j] = word[k];
+                            crossword[i + k] = new string(line);
+                        }
+
+                        wordList.RemoveAt(wordList.Count - 1);
+                        if (SolveCrossword(crossword, wordList)) return true;
+
+                        wordList.Add(word);
+
+                        for (int l = 0; l < crossword.Count; l++)
+                        {
+                            crossword[l] = backup[l];
+                        }
+                    }
+                }
             }
         }
 
