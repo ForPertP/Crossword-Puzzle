@@ -22,6 +22,38 @@ vector<bool> placeVertically(vector<string>& crossword, string word, int row, in
 void removeHorizontally(vector<string>& crossword, string word, int row, int col, vector<bool>& placed);
 void removeVertically(vector<string>& crossword, string word, int row, int col, vector<bool>& placed);
 
+
+bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
+    if (index == words.size()) {
+        return true;
+    }
+
+    string word = words[index];
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (canPlaceHorizontally(crossword, word, i, j)) {
+                vector<bool> placed = placeHorizontally(crossword, word, i, j);
+                if (solveCrossword(crossword, words, index + 1)) {
+                    return true;
+                }
+                removeHorizontally(crossword, word, i, j, placed);
+            }
+
+            if (canPlaceVertically(crossword, word, i, j)) {
+                vector<bool> placed = placeVertically(crossword, word, i, j);
+                if (solveCrossword(crossword, words, index + 1)) {
+                    return true;
+                }
+                removeVertically(crossword, word, i, j, placed);
+            }
+        }
+    }
+
+    return false;
+}
+
+
 vector<string> crosswordPuzzle(vector<string> crossword, string words) {
     vector<string> wordList;
     stringstream ss(words);
