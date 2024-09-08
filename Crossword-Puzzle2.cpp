@@ -37,6 +37,19 @@ bool canPlaceHorizontally(vector<string>& crossword, string word, int row, int c
     return true;
 }
 
+vector<bool> placeHorizontally(vector<string>& crossword, string word, int row, int col) {
+    vector<bool> placed(word.length(), false);
+
+    for (int i = 0; i < word.length(); i++) {
+        if (crossword[row][col + i] == '-') {
+            crossword[row][col + i] = word[i];
+            placed[i] = true;
+        }
+    }
+
+    return placed;
+}
+
 
 bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
     if (index == words.size()) {
