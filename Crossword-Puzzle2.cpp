@@ -50,6 +50,14 @@ vector<bool> placeHorizontally(vector<string>& crossword, string word, int row, 
     return placed;
 }
 
+void removeHorizontally(vector<string>& crossword, string word, int row, int col, vector<bool>& placed) {
+    for (int i = 0; i < word.length(); i++) {
+        if (placed[i]) {
+            crossword[row][col + i] = '-';
+        }
+    }
+}
+
 
 bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
     if (index == words.size()) {
