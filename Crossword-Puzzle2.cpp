@@ -59,6 +59,21 @@ void removeHorizontally(vector<string>& crossword, string word, int row, int col
 }
 
 
+bool canPlaceVertically(vector<string>& crossword, string word, int row, int col) {
+    if (row + word.length() > 10) {
+        return false;
+    }
+
+    for (int i = 0; i < word.length(); i++) {
+        if (crossword[row + i][col] != '-' && crossword[row + i][col] != word[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
     if (index == words.size()) {
         return true;
