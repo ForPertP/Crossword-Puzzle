@@ -86,6 +86,12 @@ vector<bool> placeVertically(vector<string>& crossword, string word, int row, in
     return placed;
 }
 
+void removeVertically(vector<string>& crossword, string word, int row, int col, vector<bool>& placed) {
+    for (int i = 0; i < word.length(); i++) {
+        if (placed[i]) crossword[row + i][col] = '-';
+    }
+}
+
 
 bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
     if (index == words.size()) {
