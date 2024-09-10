@@ -73,6 +73,19 @@ bool canPlaceVertically(vector<string>& crossword, string word, int row, int col
     return true;
 }
 
+vector<bool> placeVertically(vector<string>& crossword, string word, int row, int col) {
+    vector<bool> placed(word.length(), false);
+
+    for (int i = 0; i < word.length(); i++) {
+        if (crossword[row + i][col] == '-') {
+            crossword[row + i][col] = word[i];
+            placed[i] = true;
+        }
+    }
+
+    return placed;
+}
+
 
 bool solveCrossword(vector<string>& crossword, vector<string>& words, int index) {
     if (index == words.size()) {
