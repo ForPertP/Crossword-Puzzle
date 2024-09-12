@@ -14,13 +14,16 @@ string rtrim(const string &);
  *  2. STRING words
  */
 
-bool solveCrossword(vector<string>& crossword, vector<string>& words, int index);
 bool canPlaceHorizontally(vector<string>& crossword, string word, int row, int col);
-bool canPlaceVertically(vector<string>& crossword, string word, int row, int col);
 vector<bool> placeHorizontally(vector<string>& crossword, string word, int row, int col);
-vector<bool> placeVertically(vector<string>& crossword, string word, int row, int col);
 void removeHorizontally(vector<string>& crossword, string word, int row, int col, vector<bool>& placed);
-void removeVertically(vector<string>& crossword, string word, int row, int col, vector<bool>& placed);
+
+bool canPlaceVertically(vector<string>& crossword, string word, int row, int col);
+vector<bool> placeVertically(vector<string>& crossword, string word, int row, int col);
+void removeVertically(vector<string>& crossword, string word, int row, int col,  vector<bool>& placed);
+
+bool solveCrossword(vector<string>& crossword, vector<string>& words, int index);
+vector<string> crosswordPuzzle(vector<string> crossword, string words);
 
 
 bool canPlaceHorizontally(vector<string>& crossword, string word, int row, int col) {
