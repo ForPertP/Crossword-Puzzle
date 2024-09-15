@@ -1,19 +1,16 @@
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Text;
-using System;
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
-class Result
-{
+class Result {
 
     /*
      * Complete the 'crosswordPuzzle' function below.
@@ -24,138 +21,107 @@ class Result
      *  2. STRING words
      */
 
-    static bool SolveCrossword(List<string> crossword, List<string> wordList)
-    {
-        if (wordList.Count == 0) return true;
+    static boolean solveCrossword(List<String> crossword, List<String> wordList) {
+        if (wordList.size() == 0) return true;
 
-        string word = wordList[wordList.Count - 1];
-        int len = word.Length;
+        String word = wordList.get(wordList.size() - 1);
+        int len = word.length();
 
-        for (int i = 0; i < 10; ++i)
-        {
-            for (int j = 0; j < 10; ++j)
-            {
-                if (j + len <= 10)
-                {
-                    List<string> backup = new List<string>(crossword);
-                    //List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
+        for (int i = 0; i < 10; ++i) {
+            for (int j = 0; j < 10; ++j) {
+                if (j + len <= 10) {
+                    List<String> backup = new ArrayList<>(crossword);
 
-                    bool canPlace = true;
-
-                    for (int k = 0; k < len; ++k)
-                    {
-                        if (crossword[i][j + k] != '-' && crossword[i][j + k] != word[k])
-                        {
+                    boolean canPlace = true;
+                    for (int k = 0; k < len; ++k) {
+                        if (crossword.get(i).charAt(j + k) != '-' && crossword.get(i).charAt(j + k) != word.charAt(k)) {
                             canPlace = false;
                             break;
                         }
                     }
 
-                    if (canPlace)
-                    {
-                        StringBuilder sb = new StringBuilder(crossword[i]);
-                        for (int k = 0; k < len; ++k)
-                        {
-                            //char[] line = crossword[i].ToCharArray();
-                            //line[j + k] = word[k];
-                            //crossword[i] = new string(line);
-
-                            //StringBuilder sb = new StringBuilder(crossword[i]);
-                            sb[j + k] = word[k];
-                            crossword[i] = sb.ToString();
+                    if (canPlace) {
+                        StringBuilder sb = new StringBuilder(crossword.get(i));
+                        for (int k = 0; k < len; ++k) {
+                            sb.setCharAt(j + k, word.charAt(k));
                         }
+                        crossword.set(i, sb.toString());
 
-                        wordList.RemoveAt(wordList.Count - 1);
-                        if (SolveCrossword(crossword, wordList)) return true;
+                        wordList.remove(wordList.size() - 1);
+                        if (solveCrossword(crossword, wordList)) return true;
+                        wordList.add(word);
 
-                        wordList.Add(word);
-
-                        crossword.Clear();
-                        crossword.AddRange(backup);
-
-                        // (O)
-                        // for (int l = 0; l < crossword.Count; l++)
-                        // {
-                        //     crossword[l] = backup[l];
-                        // }
-
-                        // (X)
-                        //crossword = backup;
+                        crossword.clear();
+                        crossword.addAll(backup);
                     }
                 }
 
-                if (i + len <= 10)
-                {
-                    List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
 
-                    bool canPlace = true;
+                if (i + len <= 10) {
+                    List<String> backup = new ArrayList<>(crossword);
 
-                    for (int k = 0; k < len; ++k)
-                    {
-                        if (crossword[i + k][j] != '-' && crossword[i + k][j] != word[k])
-                        {
+                    boolean canPlace = true;
+                    for (int k = 0; k < len; ++k) {
+                        if (crossword.get(i + k).charAt(j) != '-' && crossword.get(i + k).charAt(j) != word.charAt(k)) {
                             canPlace = false;
                             break;
                         }
                     }
 
-                    if (canPlace)
-                    {
-                        for (int k = 0; k < len; ++k)
-                        {
-                            char[] line = crossword[i + k].ToCharArray();
-                            line[j] = word[k];
-                            crossword[i + k] = new string(line);
+                    if (canPlace) {
+                        for (int k = 0; k < len; ++k) {
+                            StringBuilder sb = new StringBuilder(crossword.get(i + k));
+                            sb.setCharAt(j, word.charAt(k));
+                            crossword.set(i + k, sb.toString());
                         }
 
-                        wordList.RemoveAt(wordList.Count - 1);
-                        if (SolveCrossword(crossword, wordList)) return true;
+                        wordList.remove(wordList.size() - 1);
+                        if (solveCrossword(crossword, wordList)) return true;
+                        wordList.add(word);
 
-                        wordList.Add(word);
-
-                        for (int l = 0; l < crossword.Count; l++)
-                        {
-                            crossword[l] = backup[l];
-                        }
+                        crossword.clear();
+                        crossword.addAll(backup);
                     }
                 }
             }
         }
-
         return false;
     }
 
 
-    public static List<string> crosswordPuzzle(List<string> crossword, string words)
-    {
-        List<string> wordList = new List<string>(words.Split(';'));
-        SolveCrossword(crossword, wordList);
+    public static List<String> crosswordPuzzle(List<String> crossword, String words) {
+        List<String> wordList = new ArrayList<>(Arrays.asList(words.split(";")));
+        solveCrossword(crossword, wordList);
         return crossword;
     }
 }
 
 
-class Solution
-{
-    public static void Main(string[] args)
-    {
-        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        List<string> crossword = new List<string>();
+        List<String> crossword = IntStream.range(0, 10).mapToObj(i -> {
+            try {
+                return bufferedReader.readLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        })
+            .collect(toList());
 
-        for (int i = 0; i < 10; i++)
-        {
-            string crosswordItem = Console.ReadLine();
-            crossword.Add(crosswordItem);
-        }
+        String words = bufferedReader.readLine();
 
-        string words = Console.ReadLine();
+        List<String> result = Result.crosswordPuzzle(crossword, words);
 
-        List<string> result = Result.crosswordPuzzle(crossword, words);
+        bufferedWriter.write(
+            result.stream()
+                .collect(joining("\n"))
+            + "\n"
+        );
 
-        textWriter.WriteLine(String.Join("\n", result));
-
-        textWriter.Flush();
-        textWriter.Close();
+        bufferedReader.close();
+        bufferedWriter.close();
     }
 }
