@@ -37,7 +37,8 @@ class Result
             {
                 if (j + len <= 10)
                 {
-                    List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
+                    List<string> backup = new List<string>(crossword);
+                    //List<string> backup = crossword.Select(s => new string(s.ToCharArray())).ToList();
 
                     bool canPlace = true;
 
@@ -52,13 +53,14 @@ class Result
 
                     if (canPlace)
                     {
+                        StringBuilder sb = new StringBuilder(crossword[i]);
                         for (int k = 0; k < len; ++k)
                         {
                             //char[] line = crossword[i].ToCharArray();
                             //line[j + k] = word[k];
                             //crossword[i] = new string(line);
 
-                            StringBuilder sb = new StringBuilder(crossword[i]);
+                            //StringBuilder sb = new StringBuilder(crossword[i]);
                             sb[j + k] = word[k];
                             crossword[i] = sb.ToString();
                         }
@@ -68,10 +70,17 @@ class Result
 
                         wordList.Add(word);
 
-                        for (int l = 0; l < crossword.Count; l++)
-                        {
-                            crossword[l] = backup[l];
-                        }
+                        crossword.Clear();
+                        crossword.AddRange(backup);
+
+                        // (O)
+                        // for (int l = 0; l < crossword.Count; l++)
+                        // {
+                        //     crossword[l] = backup[l];
+                        // }
+
+                        // (X)
+                        //crossword = backup;
                     }
                 }
 
