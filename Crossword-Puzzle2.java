@@ -22,7 +22,16 @@ class Result {
      */
 
     public static boolean canPlaceHorizontally(List<String> crossword, String word, int row, int col) {
- 
+        if (col + word.length() > 10) {
+            return false;
+        }
+
+        for (int i = 0; i < word.length(); i++) {
+            if (crossword.get(row).charAt(col + i) != '-' && crossword.get(row).charAt(col + i) != word.charAt(i)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
