@@ -50,6 +50,19 @@ class Result {
         return placed;
     }
 
+    public static void removeHorizontally(List<String> crossword, String word, int row, int col, boolean[] placed) {
+        StringBuilder rowBuilder = new StringBuilder(crossword.get(row));
+
+        for (int i = 0; i < word.length(); i++) {
+            if (placed[i]) {
+                rowBuilder.setCharAt(col + i, '-');
+            }
+        }
+
+        crossword.set(row, rowBuilder.toString());
+    }
+    
+
 }
 
 
