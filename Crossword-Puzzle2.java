@@ -63,19 +63,18 @@ class Result {
     }
     
 
-    public static boolean[] placeHorizontally(List<String> crossword, String word, int row, int col) {
-        boolean[] placed = new boolean[word.length()];
-        StringBuilder rowBuilder = new StringBuilder(crossword.get(row));
+    public static boolean canPlaceVertically(List<String> crossword, String word, int row, int col) {
+        if (row + word.length() > 10) {
+            return false;
+        }
 
         for (int i = 0; i < word.length(); i++) {
-            if (rowBuilder.charAt(col + i) == '-') {
-                rowBuilder.setCharAt(col + i, word.charAt(i));
-                placed[i] = true;
+            if (crossword.get(row + i).charAt(col) != '-' && crossword.get(row + i).charAt(col) != word.charAt(i)) {
+                return false;
             }
         }
 
-        crossword.set(row, rowBuilder.toString());
-        return placed;
+        return true;
     }
     
 }
