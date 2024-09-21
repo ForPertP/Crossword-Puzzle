@@ -63,6 +63,21 @@ class Result {
     }
     
 
+    public static boolean[] placeHorizontally(List<String> crossword, String word, int row, int col) {
+        boolean[] placed = new boolean[word.length()];
+        StringBuilder rowBuilder = new StringBuilder(crossword.get(row));
+
+        for (int i = 0; i < word.length(); i++) {
+            if (rowBuilder.charAt(col + i) == '-') {
+                rowBuilder.setCharAt(col + i, word.charAt(i));
+                placed[i] = true;
+            }
+        }
+
+        crossword.set(row, rowBuilder.toString());
+        return placed;
+    }
+    
 }
 
 
