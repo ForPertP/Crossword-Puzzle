@@ -76,6 +76,21 @@ class Result {
 
         return true;
     }
+
+    public static boolean[] placeVertically(List<String> crossword, String word, int row, int col) {
+        boolean[] placed = new boolean[word.length()];
+
+        for (int i = 0; i < word.length(); i++) {
+            StringBuilder rowBuilder = new StringBuilder(crossword.get(row + i));
+            if (rowBuilder.charAt(col) == '-') {
+                rowBuilder.setCharAt(col, word.charAt(i));
+                placed[i] = true;
+            }
+            crossword.set(row + i, rowBuilder.toString());
+        }
+
+        return placed;
+    }
     
 }
 
