@@ -91,7 +91,16 @@ class Result {
 
         return placed;
     }
-    
+
+    public static void removeVertically(List<String> crossword, String word, int row, int col, boolean[] placed) {
+        for (int i = 0; i < word.length(); i++) {
+            StringBuilder rowBuilder = new StringBuilder(crossword.get(row + i));
+            if (placed[i]) {
+                rowBuilder.setCharAt(col, '-');
+            }
+            crossword.set(row + i, rowBuilder.toString());
+        }
+    }
 }
 
 
