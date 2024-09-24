@@ -101,6 +101,14 @@ class Result {
             crossword.set(row + i, rowBuilder.toString());
         }
     }
+
+    public static List<String> crosswordPuzzle(List<String> crossword, String words) {
+        List<String> wordList = Arrays.asList(words.split(";"));
+
+        solveCrossword(crossword, wordList, 0);
+        return crossword;
+    }
+    
 }
 
 
