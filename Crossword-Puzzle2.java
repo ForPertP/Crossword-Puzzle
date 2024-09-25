@@ -61,7 +61,6 @@ class Result {
 
         crossword.set(row, rowBuilder.toString());
     }
-    
 
     public static boolean canPlaceVertically(List<String> crossword, String word, int row, int col) {
         if (row + word.length() > 10) {
@@ -102,13 +101,42 @@ class Result {
         }
     }
 
+    public static boolean solveCrossword(List<String> crossword, List<String> words, int index) {
+        if (index == words.size()) {
+            return true;
+        }
+
+        String word = words.get(index);
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (canPlaceHorizontally(crossword, word, i, j)) {
+                    boolean[] placed = placeHorizontally(crossword, word, i, j);
+                    if (solveCrossword(crossword, words, index + 1)) {
+                        return true;
+                    }
+                    removeHorizontally(crossword, word, i, j, placed);
+                }
+
+                if (canPlaceVertically(crossword, word, i, j)) {
+                    boolean[] placed = placeVertically(crossword, word, i, j);
+                    if (solveCrossword(crossword, words, index + 1)) {
+                        return true;
+                    }
+                    removeVertically(crossword, word, i, j, placed);
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static List<String> crosswordPuzzle(List<String> crossword, String words) {
         List<String> wordList = Arrays.asList(words.split(";"));
 
         solveCrossword(crossword, wordList, 0);
         return crossword;
     }
-    
 }
 
 
